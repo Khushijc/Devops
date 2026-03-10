@@ -10,8 +10,8 @@ pipeline {
 
         stage('Initialize') {
             steps {
-                echo "PATH = ${M2_HOME}/bin:${PATH}"
-                echo "M2_HOME = /opt/maven"
+                echo "PATH = ${env.PATH}"
+                echo "M2_HOME = ${env.M2_HOME}"
             }
         }
 
@@ -19,13 +19,13 @@ pipeline {
             steps {
                 git branch: 'main',
                 credentialsId: 'github-token',
-                url: 'https://github.com/Khushijc/Devops'
+                url: 'https://github.com/Khushijc/Devops.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                bat 'mvn -B -DskipTests clean package'
             }
         }
 
