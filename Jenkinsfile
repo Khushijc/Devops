@@ -19,7 +19,7 @@ pipeline {
             steps {
                 git branch: 'main',
                 credentialsId: 'github-token',
-                url: 'https://github.com/Heramb1221/devops-p-3'
+                url: 'https://github.com/Khushijc/Devops'
             }
         }
 
