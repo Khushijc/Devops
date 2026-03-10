@@ -1,50 +1,27 @@
 pipeline {
     agent any
-
+    
     tools {
-        maven "Maven3"
-        jdk "Java21"
+        maven 'Maven3'
     }
 
     stages {
-
-        stage('Initialize') {
-            steps {
-                echo "PATH = ${env.PATH}"
-                echo "M2_HOME = ${env.M2_HOME}"
-            }
-        }
-
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                credentialsId: 'github-token',
-                url: 'https://github.com/Khushijc/Devops.git'
+                checkout scm
             }
         }
 
         stage('Build') {
             steps {
-                bat 'mvn -B -DskipTests clean package'
+                bat 'mvn clean compile'
             }
         }
 
-    }
-
-    post {
-        always {
-            junit(
-                allowEmptyResults: true,
-                testResults: '**/target/surefire-reports/*.xml'
-            )
-        }
-
-        success {
-            echo 'Build completed successfully!'
-        }
-
-        failure {
-            echo 'Build failed!'
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
         }
     }
 }
